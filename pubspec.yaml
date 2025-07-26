@@ -61,7 +61,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - lib/assets/image/
+    - assets/image/
 
   fonts:
     - family: Nunito
@@ -69,7 +69,7 @@ flutter:
         - asset: fonts/Nunito/Static/Nunito-Bold.ttf
         - asset: fonts/Nunito/Static/Nunito-Italic.ttf
         - asset: fonts/Nunito/Static/Nunito-BoldItalic.ttf
-          weight: 700
+          weight: 800
     - family: Inika
       fonts:
         - asset: fonts/Inika/Inika-Regular.ttf
