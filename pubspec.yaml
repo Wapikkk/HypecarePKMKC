@@ -63,17 +63,14 @@ flutter:
   fonts:
     - family: Nunito
       fonts:
-        - asset: fonts/Nunito-Regular.ttf
-        - asset: fonts/Nunito-Bold.ttf
-        - asset: fonts/Nunito-Italic.ttf
-        - asset: fonts/Nunito-BoldItalic.ttf
+        - asset: fonts/Nunito/Static/Nunito-Bold.ttf
+        - asset: fonts/Nunito/Static/Nunito-Italic.ttf
+        - asset: fonts/Nunito/Static/Nunito-BoldItalic.ttf
           weight: 700
     - family: Inika
       fonts:
-        - asset: fonts/Inika-Regular.ttf
-        - asset: fonts/Inika-Bold.ttf
-        - asset: fonts/Inika-Italic.ttf
-        - asset: fonts/Inika-BoldItalic.ttf
+        - asset: fonts/Inika/Inika-Regular.ttf
+        - asset: fonts/Inika/Inika-Bold.ttf
           weight: 700
   # To add assets to your application, add an assets section, like this:
   # assets:
