@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hypecare_pkmkc/ui/navigation_bar.dart';
 
 class GettingStartedPage extends StatelessWidget {
   const GettingStartedPage({super.key});
@@ -39,6 +40,10 @@ class GettingStartedPage extends StatelessWidget {
             const SizedBox(height: 150),
             ElevatedButton(
               onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
