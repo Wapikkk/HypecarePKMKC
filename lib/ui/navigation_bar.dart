@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hypecare_pkmkc/ui/home_screen.dart';
 import 'package:hypecare_pkmkc/ui/history_screen.dart';
+import 'package:hypecare_pkmkc/ui/feedback_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,6 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     HomeScreen(),
     HistoryScreen(),
+    FeedbackScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -23,27 +25,90 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  static const Color _primaryBlue = Color.fromRGBO(90, 157, 255, 1);
+  static const Color _indicatorColor = Colors.white;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color.fromRGBO(90, 157, 255, 1),
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: _primaryBlue,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8.0,
+              spreadRadius: 2.0,
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    height: 4,
+                    width: _selectedIndex == 0 ? 30 : 0,
+                    decoration: BoxDecoration(
+                      color: _indicatorColor,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Icon(Icons.home, color: _indicatorColor),
+                ],
+              ),
+              label: 'Home',
+            ),
+             BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  // Indikator garis di atas
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    height: 4,
+                    width: _selectedIndex == 1 ? 30 : 0,
+                    decoration: BoxDecoration(
+                      color: _indicatorColor,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Icon(Icons.history),
+                ],
+              ),
+              label: 'History',
+            ),
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  // Indikator garis di atas
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    height: 4,
+                    width: _selectedIndex == 2 ? 30 : 0,
+                    decoration: BoxDecoration(
+                      color: _indicatorColor,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Icon(Icons.feedback),
+                ],
+              ),
+              label: 'Feedback',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: _indicatorColor,
+          unselectedItemColor: _indicatorColor,
+          onTap: _onItemTapped,
+          backgroundColor: _primaryBlue,
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
     );
   }
