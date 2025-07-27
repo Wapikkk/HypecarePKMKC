@@ -108,12 +108,11 @@ class _MainScreenState extends State<MainScreen> {
                   Icon(Icons.home, color: _indicatorColor),
                 ],
               ),
-              label: 'Home',
+              label: 'Beranda',
             ),
              BottomNavigationBarItem(
               icon: Column(
                 children: [
-                  // Indikator garis di atas
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     height: 4,
@@ -127,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                   Icon(Icons.history),
                 ],
               ),
-              label: 'History',
+              label: 'Riwayat',
             ),
             BottomNavigationBarItem(
               icon: Column(
@@ -145,7 +144,7 @@ class _MainScreenState extends State<MainScreen> {
                   Icon(Icons.feedback),
                 ],
               ),
-              label: 'Feedback',
+              label: 'Umpan Balik',
             ),
           ],
           currentIndex: _selectedIndex,
@@ -154,7 +153,16 @@ class _MainScreenState extends State<MainScreen> {
           onTap: _onItemTapped,
           backgroundColor: _primaryBlue,
           type: BottomNavigationBarType.fixed,
-          enableFeedback: false,
+          selectedLabelStyle: const TextStyle(
+            fontFamily: 'Inika',
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontFamily: 'Inika',
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
