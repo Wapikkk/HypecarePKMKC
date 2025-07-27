@@ -54,8 +54,29 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ],
           ),
-          
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: _primaryBlue,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.notifications,
+                  color: _indicatorColor,
+                ),
+                onPressed: () {
+                  print('Notifications tapped');
+                },
+              ),
+            ),
+          ),
+        ],
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
@@ -111,7 +132,6 @@ class _MainScreenState extends State<MainScreen> {
             BottomNavigationBarItem(
               icon: Column(
                 children: [
-                  // Indikator garis di atas
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     height: 4,
