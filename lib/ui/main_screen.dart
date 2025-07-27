@@ -31,6 +31,32 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leadingWidth: 150,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/image/logo-hypecare.png',
+                height: 30,
+              ),
+              SizedBox(width: 7),
+              Text(
+                'Hypecare',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _primaryBlue,
+                ),
+              ),
+            ],
+          ),
+          
+        ),
+      ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
@@ -108,6 +134,7 @@ class _MainScreenState extends State<MainScreen> {
           onTap: _onItemTapped,
           backgroundColor: _primaryBlue,
           type: BottomNavigationBarType.fixed,
+          enableFeedback: false,
         ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hypecare_pkmkc/ui/navigation_bar.dart';
+import 'package:hypecare_pkmkc/ui/main_screen.dart';
 
 class GettingStartedPage extends StatelessWidget {
   const GettingStartedPage({super.key});
@@ -14,8 +14,8 @@ class GettingStartedPage extends StatelessWidget {
           children: [
             Image.asset(
               'assets/image/logo-hypecare.png',
-              width: 190,
-              height: 190,
+              width: 120,
+              height: 120,
             ),
             const SizedBox(height: 0),
             Text(
@@ -23,7 +23,7 @@ class GettingStartedPage extends StatelessWidget {
               style: TextStyle (
                 fontFamily: 'Nunito',
                 fontSize: 40,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w900,
                 color: Colors.white,
               ),
             ),
@@ -42,7 +42,7 @@ class GettingStartedPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const MainScreen()),
+                  MaterialPageRoute(builder: (context) => MainScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -57,7 +57,7 @@ class GettingStartedPage extends StatelessWidget {
                 'Mulai',
                 style: TextStyle(
                   fontFamily: 'inika',
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),

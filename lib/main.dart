@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'ui/getting_started.dart';
-import 'package:hypecare_pkmkc/ui/navigation_bar.dart';
 
 void main() {
   runApp(const MyApp());
