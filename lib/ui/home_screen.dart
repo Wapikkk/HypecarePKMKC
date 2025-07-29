@@ -348,7 +348,7 @@ class HomeScreen extends StatelessWidget {
                 color: Color.fromRGBO(0, 0, 0, 1),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             Container(
               width: historyBoxWidth,
               padding: const EdgeInsets.all(16.0),
@@ -370,7 +370,8 @@ class HomeScreen extends StatelessWidget {
                         'Tidak ada riwayat treatment',
                         style: TextStyle(
                           fontFamily: 'Nunito',
-                          fontSize: 16,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
                           color: Color.fromRGBO(90, 157, 255, 1),
                         ),
                       ),

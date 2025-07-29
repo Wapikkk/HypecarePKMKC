@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hypecare_pkmkc/ui/home_screen.dart';
 import 'package:hypecare_pkmkc/ui/history_screen.dart';
-import 'package:hypecare_pkmkc/ui/feedback_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,7 +15,6 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     HomeScreen(),
     HistoryScreen(),
-    FeedbackScreen(),
   ];
 
   void _onItemTapped(int index) {
