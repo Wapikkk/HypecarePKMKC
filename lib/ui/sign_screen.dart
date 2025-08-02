@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  bool _isPasswordVisible = false;
+  bool _isConfirmPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +105,20 @@ class SignUpScreen extends StatelessWidget {
                   ],
                 ),
                 child: TextField(
-                  obscureText: true,
+                  obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    suffixIcon: const Icon(Icons.visibility_off_outlined, color: Colors.grey),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      }
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: const BorderSide(color: Color.fromRGBO(0, 0, 0, 1), width: 1.0),
@@ -143,12 +161,22 @@ class SignUpScreen extends StatelessWidget {
                       offset: const Offset(0, 3),
                     ),
                   ],
-                ),
+                ), 
                 child: TextField(
-                  obscureText: true,
+                  obscureText: !_isConfirmPassword,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    suffixIcon: const Icon(Icons.visibility_off_outlined, color: Colors.grey),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isConfirmPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isConfirmPassword = !_isConfirmPassword;
+                        });
+                      },
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: const BorderSide(color: Color.fromRGBO(0, 0, 0, 1), width: 1.0),
