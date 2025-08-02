@@ -37,7 +37,15 @@ class TimeLinePainter extends CustomPainter{
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isAktifClicked = false;
+  bool isNonaktifClicked = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -105,25 +113,17 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  SizedBox(
-                    height: 20,
-                    child: CustomPaint(
-                      painter: TimeLinePainter(numbOfTicks: 8),
-                      child: Container(),
-                    ),
-                  ),
-                  const SizedBox(height: 3),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const[
-                      Text('06.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
-                      Text('09.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
-                      Text('12.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
-                      Text('15.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
-                      Text('18.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
-                      Text('21.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
-                      Text('00.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
-                      Text('03.00', style: TextStyle(fontFamily: 'Nunito',fontSize: 12)),
+                      Text('06.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
+                      Text('09.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
+                      Text('12.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
+                      Text('15.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
+                      Text('18.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
+                      Text('21.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
+                      Text('00.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
+                      Text('03.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
                     ],
                   ),
                 ],
@@ -299,13 +299,29 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(208, 227, 255, 1),
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                  onPressed: () {
+                    setState(() {
+                      isNonaktifClicked = false;
+                      isAktifClicked = true;
+                    });
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states){
+                        if (states.contains(MaterialState.pressed) || isAktifClicked) {
+                          return Color.fromRGBO(188, 207, 235, 1);
+                        }
+                        return Color.fromRGBO(208, 227, 255, 1);
+                      },
                     ),
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    ),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
                   ),
                   child: const Text(
                     'Aktifkan',
@@ -318,13 +334,29 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(208, 227, 255, 1),
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                  onPressed: () {
+                    setState(() {
+                      isNonaktifClicked = true;
+                      isAktifClicked = false;
+                    });
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states){
+                        if (states.contains(MaterialState.pressed) || isNonaktifClicked) {
+                          return Color.fromRGBO(188, 207, 235, 1);
+                        }
+                        return Color.fromRGBO(208, 227, 255, 1);
+                      },
                     ),
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    ),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
                   ),
                   child: const Text(
                     'Nonaktif',
