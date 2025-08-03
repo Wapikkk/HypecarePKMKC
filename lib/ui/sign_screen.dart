@@ -13,6 +13,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final double maxInputWidth = screenWidth * 0.8;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -32,20 +35,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 50),
 
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Alamat Email',
-                  style: TextStyle(
-                    fontFamily: 'Inika',
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(0, 0, 0, 1),
+              SizedBox(
+                width: maxInputWidth,
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Alamat Email',
+                    style: TextStyle(
+                      fontFamily: 'Inika',
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 3),
               Container(
+                width: maxInputWidth,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0),
@@ -78,20 +85,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 20),
 
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Kata Sandi',
-                  style: TextStyle(
-                    fontFamily: 'Inika',
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(0, 0, 0, 1),
+              SizedBox(
+                width: maxInputWidth,
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Kata Sandi',
+                    style: TextStyle(
+                      fontFamily: 'Inika',
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 3),
               Container(
+                width: maxInputWidth,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0),
@@ -136,20 +147,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 20),
               
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Konfirmasi Kata Sandi',
-                  style: TextStyle(
-                    fontFamily: 'Inika',
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(0, 0, 0, 1),
+              SizedBox (
+                width: maxInputWidth,
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Konfirmasi Kata Sandi',
+                    style: TextStyle(
+                      fontFamily: 'Inika',
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 3),
               Container(
+                width: maxInputWidth,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0),
@@ -195,11 +210,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 20),
 
               Container(
-                width: double.infinity,
+                width: maxInputWidth,
                 child: ElevatedButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     backgroundColor: const Color.fromRGBO(90, 157, 255, 1),
@@ -219,7 +232,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

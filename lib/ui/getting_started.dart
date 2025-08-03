@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'sign_screen.dart';
+import 'login_screen.dart';
 
 class GettingStartedPage extends StatelessWidget {
   const GettingStartedPage({super.key});
@@ -42,7 +42,7 @@ class GettingStartedPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => SignUpScreen()),
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
