@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final historyBoxWidth = screenWidth * 0.5 - (16.0 * 2);
     final bool isHistoryTreatmentEmpty = true;
-     // Adjust height as needed
+    
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
