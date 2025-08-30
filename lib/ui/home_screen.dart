@@ -399,7 +399,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: isHistoryTreatmentEmpty
                   ? const Center(
                       child: Text(
-                        'Tidak ada riwayat treatment',
+                        'Tidak Ada Riwayat Treatment',
                         style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 13,
