@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../services/auth_services.dart';
 import 'sign_screen.dart';
 import 'main_screen.dart';
 
@@ -10,8 +12,54 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
+  final _storage = const FlutterSecureStorage();
 
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
+
+  void _handleLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final result = await _authService.login(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if(mounted) {
+      if(result['success']) {
+        await _storage.write(key: 'jwt_token', value: result['token']);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen()),
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result['message'] ?? 'Terjadi Kesalahan.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     child: TextField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                         border: OutlineInputBorder(
@@ -128,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     child: TextField(
+                      controller: _passwordController,
                       obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -173,14 +224,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => MainScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
+                        onPressed: _isLoading ? null : _handleLogin,
+                        child: _isLoading ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ) : const Text(
                           'Login',
                           style: TextStyle(
                             fontFamily: 'Inika',
