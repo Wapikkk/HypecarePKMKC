@@ -33,4 +33,6 @@ class AuthService {
       return {'succes': false, 'message': 'Terjadi kesalahan. silakan coba lagi.'};
     }
   }
+
+  
 }

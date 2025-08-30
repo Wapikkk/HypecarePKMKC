@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_services.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -9,8 +10,58 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
+
   bool _isPasswordVisible = false;
   bool _isConfirmPassword = false;
+  bool _isLoading = false;
+
+  void _handleSignUp() async {
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    final result = await _authService.register(
+      email: _emailController.text,
+      password: _passwordController.text,
+      confirmPassword: _confirmPasswordController.text,
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if(mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result['message']),
+          backgroundColor: result['success'] ? Colors.green : Colors.red,
+        ),
+      );
+
+      if (result['success']) {
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushReplacement(
+            context, 
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +118,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 child: TextField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                     border: OutlineInputBorder(
@@ -117,6 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 child: TextField(
+                  controller: _passwordController,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -179,6 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ), 
                 child: TextField(
+                  controller: _confirmPasswordController,
                   obscureText: !_isConfirmPassword,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -213,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Container(
                 width: maxInputWidth,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _isLoading ? null : _handleSignUp,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     backgroundColor: const Color.fromRGBO(90, 157, 255, 1),
@@ -250,7 +305,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
+                          builder: (context) => const LoginScreen()
                         ),
                       );
                     },
