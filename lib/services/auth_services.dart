@@ -20,17 +20,17 @@ class AuthService {
           'password': password,
           'confirmPassword': confirmPassword,
         }),
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(seconds: 2));
 
       final responseBody = jsonDecode(response.body);
 
       if (response.statusCode == 201) {
-        return {'succes': true, 'message': responseBody['message']};
+        return {'success': true, 'message': responseBody['message']};
       } else {
-        return {'succes': false, 'message': responseBody['message']};
+        return {'success': false, 'message': responseBody['message']};
       }
     } catch (e) {
-      return {'succes': false, 'message': 'Tidak dapat terhubung ke server: $e'};
+      return {'success': false, 'message': 'Tidak dapat terhubung ke server: $e'};
     }
   }
 
@@ -48,7 +48,7 @@ class AuthService {
           'email': email,
           'password': password,
         }),
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(seconds: 3));
 
       final responseBody = jsonDecode(response.body);
 
