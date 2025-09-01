@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  static const String _baseUrl = 'https://103.157.97.91:3000/api/auth';
+  static const String _baseUrl = 'http://103.157.97.91:3000/api/auth';
 
  Future<Map<String, dynamic>> register ({
   required String email, 
@@ -13,14 +13,14 @@ class AuthService {
       final response = await http.post(
         Uri.parse('$_baseUrl/register'),
         headers: <String, String>{
-          'Conten-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String> {
           'email': email,
           'password': password,
           'confirmPassword': confirmPassword,
         }),
-      );
+      ).timeout(const Duration(seconds: 10));
 
       final responseBody = jsonDecode(response.body);
 
@@ -40,7 +40,7 @@ class AuthService {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse('$_baseUrl.login'),
+        Uri.parse('$_baseUrl/login'),
         headers: <String, String> {
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -48,14 +48,14 @@ class AuthService {
           'email': email,
           'password': password,
         }),
-      );
+      ).timeout(const Duration(seconds: 10));
 
       final responseBody = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        return {'succes': true, 'token': responseBody['token']};
+        return {'success': true, 'token': responseBody['token']};
       } else {
-        return {'succes': false, 'message': responseBody['message']};
+        return {'success': false, 'message': responseBody['message']};
       }
     } catch (e) {
       return {'succes': false, 'message': 'Tidak dapat terhubung ke server: $e'};
