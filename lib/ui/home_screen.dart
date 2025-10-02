@@ -2,30 +2,30 @@ import 'package:flutter/material.dart';
 
 class TimeLinePainter extends CustomPainter{
   final int numbOfTicks;
+  final double tickInterval;
 
-  TimeLinePainter({required this.numbOfTicks});
+  TimeLinePainter({required this.numbOfTicks, required this.tickInterval});
 
   @override
   void paint(Canvas canvas, Size size){
     final paint = Paint()
       ..color = Color.fromRGBO(0, 0, 0, 1)
-      ..strokeWidth = 2.0
+      ..strokeWidth = 1.5
       ..strokeCap = StrokeCap.round;
 
     canvas.drawLine(
-      Offset(0, size.height / 2), 
-      Offset(size.width, size.height / 2), 
+      Offset(0, 0), 
+      Offset(size.width, 0), 
       paint
     );
-  
-    final double tickInterval = size.width / (numbOfTicks - 1);
+
     const double tickHeight = 10.0;
 
     for (int i = 0; i < numbOfTicks; i++) {
-      final double x = i * tickInterval;
+      final double x = i * tickInterval + (tickInterval/2);
       canvas.drawLine(
-        Offset(x, size.height / 2 - tickHeight / 2),
-        Offset(x, size.height / 2 + tickHeight / 2),
+        Offset(x, 0),
+        Offset(x, tickHeight),
         paint,
       );
     }
@@ -34,6 +34,81 @@ class TimeLinePainter extends CustomPainter{
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
+  }
+}
+
+class HourlyTimeLine extends StatelessWidget {
+  const HourlyTimeLine({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const int totalHours = 24;
+    const double hourSlotWidth = 60.0;
+
+    List<Widget> timeLabels = List.generate(totalHours, (index) {
+      final String hour = index.toString().padLeft(2, '0');
+      return SizedBox(
+        width: hourSlotWidth,
+        child: Center(
+          child: Text(
+            '$hour:00',
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+        ),
+      );
+    });
+
+    return SizedBox(
+      height: 100,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                width: totalHours * hourSlotWidth,
+                child: const Center(
+                  child: Text(
+                    'Grafik Estimasi akan ditampilkan disini',
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: totalHours * hourSlotWidth,
+              height: 40,
+              child: Stack(
+                children: [
+                  CustomPaint(
+                    size: const Size(totalHours * hourSlotWidth, 20),
+                    painter: TimeLinePainter(
+                      numbOfTicks: totalHours,
+                      tickInterval: hourSlotWidth,
+                    ),
+                  ),
+                  Positioned(
+                    top: 15,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      children: timeLabels,
+                    ),
+                  ),
+                ]
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -91,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Grafik Tekanan Darah',
+                    'Estimasi Tekanan Darah',
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 17,
@@ -100,32 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Container(
-                    height: 100,
-                    color: Color.fromRGBO(208, 227, 255, 1),
-                    child: Center(
-                      child: Text(
-                        'Placeholder Grafik Tekanan Darah',
-                        style: TextStyle(
-                          color: Colors.blue.shade700,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const[
-                      Text('06.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                      Text('09.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                      Text('12.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                      Text('15.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                      Text('18.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                      Text('21.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                      Text('00.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                      Text('03.00', style: TextStyle(fontFamily: 'Nunito',fontWeight: FontWeight.bold,fontSize: 9)),
-                    ],
-                  ),
+                  const HourlyTimeLine(),
                 ],
               ),
             ),
