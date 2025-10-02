@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  static const String _baseUrl = 'http://103.157.97.91:3000/api/auth';
+  static const String _baseUrl = 'http://72.60.76.92:3000/api/auth';
 
  Future<Map<String, dynamic>> register ({
   required String email, 
