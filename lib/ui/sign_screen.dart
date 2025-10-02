@@ -21,11 +21,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _isConfirmPassword = false;
   bool _isLoading = false;
 
-  void _handleSignUp() async {
+  String _message = '';
+  bool _isMessageVisible = false;
+  bool _isError = false;
 
+  void _handleSignUp() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
+        _isMessageVisible = false;
       });
 
       final result = await _authService.register(
@@ -34,28 +38,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
         confirmPassword: _confirmPasswordController.text,
       );
 
+      if (!mounted) return;
+
       setState(() {
         _isLoading = false;
       });
 
-      if(mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result['message']),
-            backgroundColor: result['success'] ? Colors.green : Colors.red,
-          ),
-        );
+      if (result['success']) {
+        setState(() {
+          _message = result['message'] ?? 'Registrasi berhasil';
+          _isError = false;
+          _isMessageVisible = true;
+        });
 
-        if (result['success']) {
-          Future.delayed(const Duration(seconds: 1), () {
+        Future.delayed(const Duration(seconds: 2), () {
+          if(mounted) {
             Navigator.pushReplacement(
-              context, 
+              context,
               MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
-          });
-        }
+            );
+          }
+        });
+      } else {
+        setState(() {
+          _message = result['message'] ?? 'Registrasi gagal';
+          _isError = true;
+          _isMessageVisible = true;
+        });
       }
     }
+  }
+
+  Widget _buildMessageBox() {
+    if (!_isMessageVisible) return const SizedBox.shrink();
+
+    final Color boxColor = _isError ? Colors.red.withOpacity(0.1) : Colors.green.withOpacity(0.1);
+    final Color borderColor = _isError ? Colors.red.withOpacity(0.5) : Colors.green.withOpacity(0.5);
+    final Color iconColor = _isError ? Colors.red : Colors.green;
+    final IconData iconData = _isError ? Icons.error_outline : Icons.check_circle_outline;
+
+    return Container(
+      margin: const EdgeInsets.only(top: 24.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        color: boxColor,
+        borderRadius: BorderRadius.circular(10.0),
+        border: Border.all(color: borderColor),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(iconData, color: iconColor, size: 20),
+          const SizedBox(width: 12.0),
+          Text(
+            _message,
+            style: TextStyle(
+              color: iconColor,
+              fontSize: 14,
+              fontFamily: 'Inika',
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -351,6 +396,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  width: maxInputWidth,
+                  child: _buildMessageBox(),
                 ),
               ],
             ),

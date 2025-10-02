@@ -31,7 +31,8 @@ class AuthService {
         return {'success': false, 'message': responseBody['message']};
       }
     } catch (e) {
-      return {'success': false, 'message': 'Tidak dapat terhubung ke server: $e'};
+      print ('Registraion error: $e');
+      return {'success': false, 'message': 'Registrasi gagal.'};
     }
   }
 
@@ -59,7 +60,8 @@ class AuthService {
         return {'success': false, 'message': responseBody['message']};
       }
     } catch (e) {
-      return {'succes': false, 'message': 'Tidak dapat terhubung ke server: $e'};
+      print('Loggin Error: $e');
+      return {'success': false, 'message': 'Login gagal.'};
     }
   }
 }

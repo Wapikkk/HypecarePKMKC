@@ -21,15 +21,21 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
   bool _isLoading = false;
 
+  String _errorMassage = '';
+  bool _isErrorVisible = false;
+
   void _handleLogin() async {
     setState(() {
       _isLoading = true;
+      _isErrorVisible = false;
     });
 
     final result = await _authService.login(
       email: _emailController.text,
       password: _passwordController.text,
     );
+
+    if (!mounted) return;
 
     setState(() {
       _isLoading = false;
@@ -44,14 +50,42 @@ class _LoginScreenState extends State<LoginScreen> {
           (route) => false,
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result['message'] ?? 'Terjadi Kesalahan.'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        setState(() {
+          _errorMassage = result['message'] ?? 'Terjadi kesalahan, coba lagi.';
+          _isErrorVisible = true;
+        });
       }
     }
+  }
+
+  Widget _buildErrorBox() {
+    return Visibility(
+      visible: _isErrorVisible,
+      child: Container(
+        margin: const EdgeInsets.only(top: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          color: Colors.red.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(color: Colors.red.withOpacity(0.5)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.red, size: 20),
+            const SizedBox(width: 12.0),
+            Text(
+              _errorMassage,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 14.0,
+                fontFamily: 'Inika',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -275,6 +309,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
+
+                Center(
+                  child: SizedBox(
+                    width: maxInputWidth,
+                    child: _buildErrorBox(),
+                  ),
+                ),
+
               ],
             ), 
           ),
