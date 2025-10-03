@@ -70,6 +70,39 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 16),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(208, 227, 255, 1),
+                borderRadius: BorderRadius.circular(13.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Prediksi Tekanan Darah',
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const HourlyTimeline(),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
             Row (
               children: [
                 Expanded(
