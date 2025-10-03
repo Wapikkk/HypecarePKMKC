@@ -1,120 +1,11 @@
 import 'package:flutter/material.dart';
-
-class TimeLinePainter extends CustomPainter{
-  final int numbOfTicks;
-  final double tickInterval;
-
-  TimeLinePainter({required this.numbOfTicks, required this.tickInterval});
-
-  @override
-  void paint(Canvas canvas, Size size){
-    final paint = Paint()
-      ..color = Color.fromRGBO(0, 0, 0, 1)
-      ..strokeWidth = 1.5
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawLine(
-      Offset(0, 0), 
-      Offset(size.width, 0), 
-      paint
-    );
-
-    const double tickHeight = 10.0;
-
-    for (int i = 0; i < numbOfTicks; i++) {
-      final double x = i * tickInterval + (tickInterval/2);
-      canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, tickHeight),
-        paint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-}
-
-class HourlyTimeLine extends StatelessWidget {
-  const HourlyTimeLine({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const int totalHours = 24;
-    const double hourSlotWidth = 60.0;
-
-    List<Widget> timeLabels = List.generate(totalHours, (index) {
-      final String hour = index.toString().padLeft(2, '0');
-      return SizedBox(
-        width: hourSlotWidth,
-        child: Center(
-          child: Text(
-            '$hour:00',
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      );
-    });
-
-    return SizedBox(
-      height: 100,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                width: totalHours * hourSlotWidth,
-                child: const Center(
-                  child: Text(
-                    'Grafik Estimasi akan ditampilkan disini',
-                    style: TextStyle(
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: totalHours * hourSlotWidth,
-              height: 40,
-              child: Stack(
-                children: [
-                  CustomPaint(
-                    size: const Size(totalHours * hourSlotWidth, 20),
-                    painter: TimeLinePainter(
-                      numbOfTicks: totalHours,
-                      tickInterval: hourSlotWidth,
-                    ),
-                  ),
-                  Positioned(
-                    top: 15,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      children: timeLabels,
-                    ),
-                  ),
-                ]
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'widgets/hourly_timeline.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -123,7 +14,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final screenWidth = MediaQuery.of(context).size.width;
     final historyBoxWidth = screenWidth * 0.5 - (16.0 * 2);
     final bool isHistoryTreatmentEmpty = true;
@@ -175,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const HourlyTimeLine(),
+                  const HourlyTimeline(),
                 ],
               ),
             ),
