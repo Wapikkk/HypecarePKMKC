@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Prediksi 30 Menit',
+                          'Prediksi 1 jam',
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 17,
