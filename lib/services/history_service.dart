@@ -20,14 +20,30 @@ class HistoryService {
       ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        Map<String, dynamic>? data = responseBody['data'];
+        
+        if (data == null) {
+          return [];
+        }
 
-        List<dynamic>? dataFromServer = responseBody['data'] as List<dynamic>?;
-        List<DailyHistory> historyList = [];
+        List<dynamic> estimationList = data['estimationData'] ?? [];
+        List<dynamic> predictionList = data['predictionData'] ?? [];
+
+        final List<dynamic> allHistoryItems = [...estimationList, ...predictionList];
+
+        if (allHistoryItems.isEmpty) {
+          return [];
+        }
+
+        final List<DailyHistory> historyList = allHistoryItems.map((jsonItem) {
+          return DailyHistory.fromJson(jsonItem as Map<String, dynamic>);
+        }).toList();
 
         return historyList;
       } else {
-        throw Exception('Gagal mengambil data riwayat');
+        final errorBody = jsonDecode(response.body);
+        throw Exception('Gagal mengambil data riwayat: ${errorBody['message']}');
       }
     } catch (e) {
       throw Exception('Terjadi kesalahan: $e');

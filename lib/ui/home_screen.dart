@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/hourly_timeline.dart';
+import 'package:hypecare_pkmkc/models/home_data.dart';
+import 'package:hypecare_pkmkc/services/home_service.dart'; 
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isAktifClicked = false;
   bool isNonaktifClicked = false;
+  late Future<HomeData> _homeDataFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _homeDataFuture = HomeService().fetchHomeData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,70 +46,92 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(208, 227, 255, 1),
-                borderRadius: BorderRadius.circular(13.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Estimasi Tekanan Darah',
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const HourlyTimeline(),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(208, 227, 255, 1),
-                borderRadius: BorderRadius.circular(13.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Prediksi Tekanan Darah',
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const HourlyTimeline(),
-                ],
-              ),
+            FutureBuilder<HomeData>(
+              future: _homeDataFuture,
+              builder: (context, snapshot) {
+                if(snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if(snapshot.hasError) {
+                  return Center(child: Text('Gagal memuat data: ${snapshot.error}'));
+                }
+
+                if(snapshot.hasData){
+                  final homeData = snapshot.data!;
+
+                  return Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(208, 227, 255, 1),
+                          borderRadius: BorderRadius.circular(13.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Estimasi Tekanan Darah',
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            HourlyTimeline(data: homeData.estimationData),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(208, 227, 255, 1),
+                          borderRadius: BorderRadius.circular(13.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Prediksi Tekanan Darah',
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            HourlyTimeline(data: homeData.predictionData),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return const Center(child: Text('Tidak ada data tersedia'));
+              }
             ),
             SizedBox(height: 16),
             Row (

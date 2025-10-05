@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'blood_pressure_y_axis.dart';
 import 'chart_grid_lines.dart';
+import 'graph_painter.dart';
+import '../../models/daily_history.dart';
 
 class TimeLinePainter extends CustomPainter {
   final int numbOfTicks;
@@ -33,7 +35,8 @@ class TimeLinePainter extends CustomPainter {
 }
 
 class HourlyTimeline extends StatefulWidget {
-  const HourlyTimeline({super.key});
+  final List<BloodPressurePoint> data;
+  const HourlyTimeline({super.key, this.data = const []});
 
   @override
   State<HourlyTimeline> createState() => _HourlyTimelineState();
@@ -113,12 +116,11 @@ class _HourlyTimelineState extends State<HourlyTimeline> {
                     child: Stack(
                       children: [
                         const ChartGridLines(),
-                        const Center(
-                          child: Text(
-                            'Grafik Estimasi Tekanan Darah',
-                            style: TextStyle(
-                              color: Colors.blue,
-                            ),
+                        CustomPaint(
+                          size: Size(totalHours * hourSlotWidth, chartHeight),
+                          painter: GraphPainter(
+                            data: widget.data,
+                            hourSlotWidth: hourSlotWidth,
                           ),
                         ),
                       ],
