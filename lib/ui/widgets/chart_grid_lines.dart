@@ -14,7 +14,7 @@ class ChartGridLines extends StatelessWidget {
           children: List.generate(lineCount, (index) {
             if (index == lineCount - 1) {
             return Positioned(
-                bottom: 0, // Posisikan dari bawah, bukan dari atas
+                bottom: 0,
                 left: 0,
                 right: 0,
                 child: Divider(
